@@ -8,7 +8,8 @@ using std::ofstream;
 
 Logger::Logger()
 	:
-	logLevel(LogLevels::Off)
+	logLevel(LogLevels::Off),
+	logToOuput(false)
 {
 	fileName = CreateFileName();
 
@@ -24,7 +25,7 @@ void Logger::LogFatal(std::string fatal)
 		return;
 	}
 	string logString = "|FATAL|\t" + GetTimeString() + " | " + fatal;
-	LogInternal(logString);
+	LogToFile(logString);
 }
 
 void Logger::LogError(std::string error)
@@ -34,7 +35,7 @@ void Logger::LogError(std::string error)
 		return;
 	}
 	string logString = "|ERROR|\t" + GetTimeString() + " | " + error;
-	LogInternal(logString);
+	LogToFile(logString);
 }
 
 void Logger::LogWarn(std::string warning)
@@ -44,7 +45,7 @@ void Logger::LogWarn(std::string warning)
 		return;
 	}
 	string logString = "|WARN|\t" + GetTimeString() + " | " + warning;
-	LogInternal(logString);
+	LogToFile(logString);
 }
 
 void Logger::LogInfo(std::string info)
@@ -54,7 +55,7 @@ void Logger::LogInfo(std::string info)
 		return;
 	}
 	string logString = "|INFO|\t" + GetTimeString() + " | " + info;
-	LogInternal(logString);
+	LogToFile(logString);
 }
 
 void Logger::LogDebug(std::string debugMessage)
@@ -64,7 +65,7 @@ void Logger::LogDebug(std::string debugMessage)
 		return;
 	}
 	string logString = "|DEBUG|\t" + GetTimeString() + " | " + debugMessage;
-	LogInternal(logString);
+	LogToFile(logString);
 }
 
 void Logger::LogTrace(std::string traceMessage)
@@ -74,25 +75,35 @@ void Logger::LogTrace(std::string traceMessage)
 		return;
 	}
 	string logString = "|TRACE|\t" + GetTimeString() + " | " + traceMessage;
-	LogInternal(logString);
-}
-
-LogLevels Logger::GetLogLevel()
-{
-	return logLevel;
+	LogToFile(logString);
 }
 
 void Logger::SetLogLevel(LogLevels level)
 {
 	logLevel = level;
+	LogInfo("LogLevel set to " + LogLevelToString(level));
 }
 
-void Logger::LogInternal(std::string& logString)
+void Logger::SetLogToOuput(bool allowed)
 {
-	std::cout << logString << std::endl;
+	logToOuput = allowed;
+}
+
+void Logger::LogToFile(std::string& logString)
+{
 	ofstream ofs(fileName, std::ios::app);
 	ofs << logString << std::endl;
 	ofs.close();
+
+	LogToOutput(logString);
+}
+
+void Logger::LogToOutput(std::string& logString)
+{
+	if (logToOuput)
+	{
+		std::cout << logString << std::endl;
+	}	
 }
 
 std::string Logger::CreateFileName()

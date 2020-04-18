@@ -16,6 +16,8 @@ class EZLOG_API Logger
 {
 public:
 	Logger();
+	Logger(const Logger&) = delete;
+	Logger& operator=(const Logger&) = delete;
 
 	void LogFatal(std::string fatal);
 	void LogError(std::string error);
@@ -24,17 +26,19 @@ public:
 	void LogDebug(std::string debugMessage);
 	void LogTrace(std::string traceMessage);
 
-	LogLevels GetLogLevel();
 	void SetLogLevel(LogLevels level);
+	void SetLogToOuput(bool allowed);
 
 private:
-	void LogInternal(std::string& logString);
+	void LogToFile(std::string& logString);
+	void LogToOutput(std::string& logString);
 	std::string CreateFileName();
 	std::string GetTimeString();
 	tm* GetTimeStruct();
 
 	std::string fileName;
 	LogLevels logLevel;
+	bool logToOuput;
 };
 
 #endif
