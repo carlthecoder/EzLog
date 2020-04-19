@@ -1,5 +1,5 @@
 /*
-© Copyright 2020 carlthecoder@outlook.com
+Copyright © 2020 Carl Claessens
 
 This file is part of EzLog.
 EzLog is free software : you can redistribute it and /or modify
