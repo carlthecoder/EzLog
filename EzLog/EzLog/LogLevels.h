@@ -2,6 +2,12 @@
 #ifndef EZLOG_LOGLEVELS_H
 #define EZLOG_LOGLEVELS_H
 
+#ifdef EZLOG_EXPORTS
+#define EZLOG_API __declspec(dllexport)
+#else
+#define EZLOG_API __declspec(dllimport)
+#endif
+
 #include <string>
 
 enum class LogLevels
@@ -15,31 +21,6 @@ enum class LogLevels
 	Trace
 };
 
-std::string LogLevelToString(LogLevels level)
-{
-	switch (level)
-	{
-		case LogLevels::Off:
-			return "Off";
-			
-		case LogLevels::Fatal:
-			return "Fatal";
-			
-		case LogLevels::Error:
-			return "Error";
-
-		case LogLevels::Warn:
-			return "Warn";
-
-		case LogLevels::Info:
-			return "Info";
-
-		case LogLevels::Debug:
-			return "Debug";
-
-		case LogLevels::Trace:
-			return "Trace";
-	}
-}
+EZLOG_API std::string LogLevelToString(LogLevels level);
 
 #endif

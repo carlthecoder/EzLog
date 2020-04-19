@@ -6,10 +6,10 @@
 using std::string;
 using std::ofstream;
 
-Logger::Logger()
+Logger::Logger(LogLevels level, bool logToOutput)
 	:
-	logLevel(LogLevels::Off),
-	logToOuput(false)
+	logLevel(level),
+	logToOuput(logToOutput)
 {
 	fileName = CreateFileName();
 
@@ -18,7 +18,7 @@ Logger::Logger()
 	ofs.close();
 }
 
-void Logger::LogFatal(std::string fatal)
+void Logger::LogFatal(std::string fatal) const
 {
 	if (logLevel == LogLevels::Off || logLevel < LogLevels::Fatal)
 	{
@@ -28,7 +28,7 @@ void Logger::LogFatal(std::string fatal)
 	LogToFile(logString);
 }
 
-void Logger::LogError(std::string error)
+void Logger::LogError(std::string error) const
 {
 	if (logLevel == LogLevels::Off || logLevel < LogLevels::Error)
 	{
@@ -38,7 +38,7 @@ void Logger::LogError(std::string error)
 	LogToFile(logString);
 }
 
-void Logger::LogWarn(std::string warning)
+void Logger::LogWarn(std::string warning) const
 {
 	if (logLevel == LogLevels::Off || logLevel < LogLevels::Warn)
 	{
@@ -48,7 +48,7 @@ void Logger::LogWarn(std::string warning)
 	LogToFile(logString);
 }
 
-void Logger::LogInfo(std::string info)
+void Logger::LogInfo(std::string info) const
 {
 	if (logLevel == LogLevels::Off || logLevel < LogLevels::Info)
 	{
@@ -58,7 +58,7 @@ void Logger::LogInfo(std::string info)
 	LogToFile(logString);
 }
 
-void Logger::LogDebug(std::string debugMessage)
+void Logger::LogDebug(std::string debugMessage) const
 {
 	if (logLevel == LogLevels::Off || logLevel < LogLevels::Debug)
 	{
@@ -68,7 +68,7 @@ void Logger::LogDebug(std::string debugMessage)
 	LogToFile(logString);
 }
 
-void Logger::LogTrace(std::string traceMessage)
+void Logger::LogTrace(std::string traceMessage) const
 {
 	if (logLevel == LogLevels::Off || logLevel < LogLevels::Trace)
 	{
@@ -78,18 +78,7 @@ void Logger::LogTrace(std::string traceMessage)
 	LogToFile(logString);
 }
 
-void Logger::SetLogLevel(LogLevels level)
-{
-	logLevel = level;
-	LogInfo("LogLevel set to " + LogLevelToString(level));
-}
-
-void Logger::SetLogToOuput(bool allowed)
-{
-	logToOuput = allowed;
-}
-
-void Logger::LogToFile(std::string& logString)
+void Logger::LogToFile(std::string& logString) const
 {
 	ofstream ofs(fileName, std::ios::app);
 	ofs << logString << std::endl;
@@ -98,7 +87,7 @@ void Logger::LogToFile(std::string& logString)
 	LogToOutput(logString);
 }
 
-void Logger::LogToOutput(std::string& logString)
+void Logger::LogToOutput(std::string& logString) const
 {
 	if (logToOuput)
 	{
@@ -115,14 +104,14 @@ std::string Logger::CreateFileName()
 	return "Output " + fileTime + ".log";
 }
 
-std::string Logger::GetTimeString()
+std::string Logger::GetTimeString() const
 {
 	auto [year, month, day, hour, min, sec] = GetTimeStamp();
 
 	return day + "/" + month + "/" + year + " " + hour + ":" + min + ":" + sec;
 }
 
-TimeStamp Logger::GetTimeStamp()
+TimeStamp Logger::GetTimeStamp() const
 {
 	auto now = time(0);
 	auto lt = localtime(&now);

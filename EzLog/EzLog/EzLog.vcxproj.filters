@@ -18,12 +18,18 @@
     <ClCompile Include="Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LogLevels.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LogLevels.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LogLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
