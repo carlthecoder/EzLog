@@ -78,6 +78,16 @@ void Logger::LogTrace(std::string traceMessage) const
 	LogToFile(logString);
 }
 
+void Logger::SetLogLevel(LogLevels level)
+{
+	logLevel = level;
+}
+
+void Logger::SetLogToOutput(bool allowed)
+{
+	logToOuput = allowed;
+}
+
 void Logger::LogToFile(std::string& logString) const
 {
 	ofstream ofs(fileName, std::ios::app);

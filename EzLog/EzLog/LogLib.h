@@ -5,6 +5,6 @@
 #include "Logger.h"
 #include "LogLevels.h"
 
-const Logger logger{ LogLevels::Trace, true };
+Logger logger{ LogLevels::Trace, true };
 
 #endif

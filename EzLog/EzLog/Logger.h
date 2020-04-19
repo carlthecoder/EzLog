@@ -27,6 +27,9 @@ public:
 	void LogInfo(std::string info) const;
 	void LogDebug(std::string debugMessage) const;
 	void LogTrace(std::string traceMessage) const;
+	
+	void SetLogLevel(LogLevels level);
+	void SetLogToOutput(bool allowed);
 
 private:
 	void LogToFile(std::string& logString) const;
