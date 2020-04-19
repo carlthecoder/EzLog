@@ -1,7 +1,7 @@
 #include "Logger.h"
+#include <ctime>
 #include <iostream>
 #include <fstream>
-#include <sstream>
 
 using std::string;
 using std::ofstream;
@@ -102,44 +102,43 @@ void Logger::LogToOutput(std::string& logString)
 {
 	if (logToOuput)
 	{
-		std::cout << logString << std::endl;
+		std::clog << logString << std::endl;
 	}	
 }
 
 std::string Logger::CreateFileName()
 {
-	auto lt = GetTimeStruct();
+	auto [year, month, day, hour, min, sec] = GetTimeStamp();
 
-	std::ostringstream oss;
-	oss << lt->tm_year - 100
-		<< "0" << lt->tm_mon
-		<< lt->tm_mday
-		<< "_"
-		<< lt->tm_hour
-		<< lt->tm_min
-		<< lt->tm_sec;
+	auto fileTime = year + month + day + "_" + hour + min + sec;
 
-	return "Output " + oss.str() + ".log";
+	return "Output " + fileTime + ".log";
 }
 
 std::string Logger::GetTimeString()
 {
-	auto lt = GetTimeStruct();
+	auto [year, month, day, hour, min, sec] = GetTimeStamp();
 
-	std::ostringstream oss;
-	oss << lt->tm_year - 100 << "/"
-		<< "0" << lt->tm_mon << "/"
-		<< lt->tm_mday
-		<< " "
-		<< lt->tm_hour << ":"
-		<< lt->tm_min << ":"
-		<< lt->tm_sec;
-
-	return oss.str();
+	return day + "/" + month + "/" + year + " " + hour + ":" + min + ":" + sec;
 }
 
-tm* Logger::GetTimeStruct()
+TimeStamp Logger::GetTimeStamp()
 {
 	auto now = time(0);
-	return localtime(&now);
+	auto lt = localtime(&now);
+
+	string year = std::to_string(lt->tm_year - 100);
+	string month = std::to_string(lt->tm_mon);
+	string day = std::to_string(lt->tm_mday);
+	month = lt->tm_mon < 10 ? "0" + month : month;
+	day = lt->tm_mday < 10 ? "0" + day : day;
+
+	string hour = std::to_string(lt->tm_hour);
+	string min = std::to_string(lt->tm_min);
+	hour = lt->tm_hour < 10 ? "0" + hour : hour;
+	string sec = std::to_string(lt->tm_sec);
+	min = lt->tm_min < 10 ? "0" + min : min;
+	sec = lt->tm_sec < 10 ? "0" + sec : sec;
+
+	return std::make_tuple(year, month, day, hour, min, sec);
 }

@@ -9,8 +9,10 @@
 #endif
 
 #include "LogLevels.h"
-#include <ctime>
 #include <string>
+#include <tuple>
+
+using TimeStamp = std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>;
 
 class EZLOG_API Logger
 {
@@ -34,7 +36,7 @@ private:
 	void LogToOutput(std::string& logString);
 	std::string CreateFileName();
 	std::string GetTimeString();
-	tm* GetTimeStruct();
+	TimeStamp GetTimeStamp();
 
 	std::string fileName;
 	LogLevels logLevel;
