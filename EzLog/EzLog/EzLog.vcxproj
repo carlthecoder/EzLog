@@ -206,9 +206,9 @@ COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLib.h C:\ZData\Carl\
     <ClCompile Include="LogLevels.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LogLib.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="LogLevels.h" />
+    <ClInclude Include="LogLib.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

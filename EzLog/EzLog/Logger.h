@@ -35,7 +35,8 @@ using TimeStamp = std::tuple<std::string, std::string, std::string, std::string,
 class EZLOG_API Logger
 {
 public:
-	Logger(LogLevels level = LogLevels::Trace, bool logToOutput = true, std::string dirPath = "Logs", std::string fileName = "output");
+	Logger(std::string fileName = "Output", std::string dirPath = "Logs");
+	Logger(LogLevels level, bool logToOutput, std::string fileName, std::string dirPath = "Logs");
 	Logger(const Logger&) = delete;
 	Logger& operator=(const Logger&) = delete;
 
@@ -56,7 +57,7 @@ private:
 	std::string GetTimeString() const;
 	TimeStamp GetTimeStamp() const;
 
-	std::string filename;
+	std::string filePath;
 	LogLevels logLevel;
 	bool logToOuput;
 	std::string directory;

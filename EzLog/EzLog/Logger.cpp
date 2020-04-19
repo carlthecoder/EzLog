@@ -25,16 +25,20 @@ along with EzLog. If not, see < https://www.gnu.org/licenses/lgpl-3.0.txt >
 using std::string;
 using std::ofstream;
 
-Logger::Logger(LogLevels level, bool logToOutput, string dirPath, string fileName)
+Logger::Logger(std::string fileName, std::string dirPath)
+	: Logger(LogLevels::Trace, true, fileName, dirPath)
+{}
+
+Logger::Logger(LogLevels level, bool logToOutput, string fileName, string dirPath)
 	:
 	logLevel(level),
 	logToOuput(logToOutput),
 	directory(dirPath)
 {
 	std::filesystem::create_directory(directory);
-	filename = directory + "\\" + CreateFileName(fileName);
+	filePath = directory + "\\" + CreateFileName(fileName);
 	
-	ofstream ofs(filename);
+	ofstream ofs(filePath);
 	ofs << "Log file created on " << GetTimeString() << std::endl;
 	ofs.close();
 }
@@ -111,7 +115,7 @@ void Logger::SetLogToOutput(bool allowed)
 
 void Logger::LogToFile(std::string& logString) const
 {
-	ofstream ofs(filename, std::ios::app);
+	ofstream ofs(filePath, std::ios::app);
 	ofs << logString << std::endl;
 	ofs.close();
 
@@ -147,16 +151,16 @@ TimeStamp Logger::GetTimeStamp() const
 	auto now = time(0);
 	auto lt = localtime(&now);
 
-	string year = std::to_string(lt->tm_year - 100);
-	string month = std::to_string(lt->tm_mon);
 	string day = std::to_string(lt->tm_mday);
-	month = lt->tm_mon < 10 ? "0" + month : month;
+	string month = std::to_string(lt->tm_mon);
+	string year = std::to_string(lt->tm_year % 100);
 	day = lt->tm_mday < 10 ? "0" + day : day;
+	month = lt->tm_mon < 10 ? "0" + month : month;
 
 	string hour = std::to_string(lt->tm_hour);
 	string min = std::to_string(lt->tm_min);
-	hour = lt->tm_hour < 10 ? "0" + hour : hour;
 	string sec = std::to_string(lt->tm_sec);
+	hour = lt->tm_hour < 10 ? "0" + hour : hour;
 	min = lt->tm_min < 10 ? "0" + min : min;
 	sec = lt->tm_sec < 10 ? "0" + sec : sec;
 
