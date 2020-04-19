@@ -23,6 +23,6 @@ along with EzLog. If not, see < https://www.gnu.org/licenses/lgpl-3.0.txt >
 #include "Logger.h"
 #include "LogLevels.h"
 
-Logger logger {LogLevels::Trace, true};
+Logger logger;
 
 #endif

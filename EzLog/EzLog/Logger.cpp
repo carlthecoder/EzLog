@@ -20,18 +20,21 @@ along with EzLog. If not, see < https://www.gnu.org/licenses/lgpl-3.0.txt >
 #include <ctime>
 #include <iostream>
 #include <fstream>
+#include <filesystem>
 
 using std::string;
 using std::ofstream;
 
-Logger::Logger(LogLevels level, bool logToOutput)
+Logger::Logger(LogLevels level, bool logToOutput, string dirPath, string fileName)
 	:
 	logLevel(level),
-	logToOuput(logToOutput)
-{	
-	fileName = CreateFileName();	
-
-	ofstream ofs(fileName);
+	logToOuput(logToOutput),
+	directory(dirPath)
+{
+	std::filesystem::create_directory(directory);
+	filename = directory + "\\" + CreateFileName(fileName);
+	
+	ofstream ofs(filename);
 	ofs << "Log file created on " << GetTimeString() << std::endl;
 	ofs.close();
 }
@@ -108,7 +111,7 @@ void Logger::SetLogToOutput(bool allowed)
 
 void Logger::LogToFile(std::string& logString) const
 {
-	ofstream ofs(fileName, std::ios::app);
+	ofstream ofs(filename, std::ios::app);
 	ofs << logString << std::endl;
 	ofs.close();
 
@@ -123,13 +126,13 @@ void Logger::LogToOutput(std::string& logString) const
 	}	
 }
 
-std::string Logger::CreateFileName()
+std::string Logger::CreateFileName(string fileName)
 {
 	auto [year, month, day, hour, min, sec] = GetTimeStamp();
 
 	auto fileTime = year + month + day + "_" + hour + min + sec;
 
-	return "Output " + fileTime + ".log";
+	return fileName + " " + fileTime + ".log";
 }
 
 std::string Logger::GetTimeString() const
