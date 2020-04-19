@@ -26,10 +26,9 @@ along with EzLog. If not, see < https://www.gnu.org/licenses/lgpl-3.0.txt >
 #define EZLOG_API __declspec(dllimport)
 #endif
 
-
 #include "LogLevels.h"
-#include <string>
 #include <tuple>
+#include <string>
 
 using TimeStamp = std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>;
 

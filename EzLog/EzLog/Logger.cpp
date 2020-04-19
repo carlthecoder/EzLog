@@ -28,8 +28,8 @@ Logger::Logger(LogLevels level, bool logToOutput)
 	:
 	logLevel(level),
 	logToOuput(logToOutput)
-{
-	fileName = CreateFileName();
+{	
+	fileName = CreateFileName();	
 
 	ofstream ofs(fileName);
 	ofs << "Log file created on " << GetTimeString() << std::endl;
