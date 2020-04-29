@@ -26,41 +26,41 @@ along with EzLog. If not, see < https://www.gnu.org/licenses/lgpl-3.0.txt >
 #define EZLOG_API __declspec(dllimport)
 #endif
 
-#include "LogLevels.h"
-#include <tuple>
-#include <string>
-
-using TimeStamp = std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>;
+#include "LogLevel.h"
+#include "TimeStamp.h"
 
 class EZLOG_API Logger
 {
 public:
-	Logger(std::string fileName = "Output", std::string dirPath = "Logs");
-	Logger(LogLevels level, bool logToOutput, std::string fileName, std::string dirPath = "Logs");
+	Logger() = default;
+	~Logger();
 	Logger(const Logger&) = delete;
 	Logger& operator=(const Logger&) = delete;
 
-	void LogFatal(std::string fatal) const;
-	void LogError(std::string error) const;
-	void LogWarn(std::string warning) const;
-	void LogInfo(std::string info) const;
-	void LogDebug(std::string debugMessage) const;
-	void LogTrace(std::string traceMessage) const;
+	void Initialize(LogLevel level = LogLevel::Trace, bool consoleLogging = true, const char* fileName = "Output.log", const char* dirPath = "Log");
+	
+	void SetLogLevel(LogLevel level);
+	void ToggleConsoleLogging(bool allowed);
 
-	void SetLogLevel(LogLevels level);
-	void SetLogToOutput(bool allowed);
+	void LogFatal(const char* fatal) const;
+	void LogError(const char* error) const;
+	void LogWarn(const char* warning) const;
+	void LogInfo(const char* info) const;
+	void LogDebug(const char* debugMessage) const;
+	void LogTrace(const char* traceMessage) const;	
 
 private:
-	void LogToFile(std::string& logString) const;
-	void LogToOutput(std::string& logString) const;
-	std::string CreateFileName(std::string fileName);
-	std::string GetTimeString() const;
-	TimeStamp GetTimeStamp() const;
+	char* filePath = nullptr;
+	char* timeString = nullptr;
+	bool consoleLogging = true;
+	LogLevel logLevel = LogLevel::Trace;
 
-	std::string filePath;
-	LogLevels logLevel;
-	bool logToOuput;
-	std::string directory;
+	void LogToFile(const char* logString) const;
+	void LogToConsole(const char* logString) const;
+
+	void CreateFilePath(const char* dirPath, const char* fileName);
+	void CreateTimeString();
+	TimeStamp GetTimeStamp() const;
 };
 
 #endif

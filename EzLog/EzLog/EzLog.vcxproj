@@ -97,13 +97,17 @@
     <PostBuildEvent>
       <Command>COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\Release\EzLog.dll C:\Libraries\EzLog\lib\EzLog.dll
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\Release\EzLog.lib C:\Libraries\EzLog\lib\EzLog.lib
+
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\Logger.h C:\Libraries\EzLog\include\Logger.h
-COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLevels.h C:\Libraries\EzLog\include\LogLevels.h
+COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLevel.h C:\Libraries\EzLog\include\LogLevel.h
+COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\TimeStamp.h C:\Libraries\EzLog\include\TimeStamp.h
 
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\Release\EzLog.dll C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\lib\EzLog.dll
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\Release\EzLog.lib C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\lib\EzLog.lib
+
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\Logger.h C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\include\Logger.h
-COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLevels.h C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\include\LogLevels.h</Command>
+COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLevel.h C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\include\LogLevel.h
+COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\TimeStamp.h C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\include\TimeStamp.h</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -122,13 +126,17 @@ COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLevels.h C:\ZData\Ca
     <PostBuildEvent>
       <Command>COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\Release\EzLog.dll C:\Libraries\EzLog\lib\EzLog.dll
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\Release\EzLog.lib C:\Libraries\EzLog\lib\EzLog.lib
+
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\Logger.h C:\Libraries\EzLog\include\Logger.h
-COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLevels.h C:\Libraries\EzLog\include\LogLevels.h
+COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLevel.h C:\Libraries\EzLog\include\LogLevel.h
+COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\TimeStamp.h C:\Libraries\EzLog\include\TimeStamp.h
 
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\Release\EzLog.dll C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\lib\EzLog.dll
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\Release\EzLog.lib C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\lib\EzLog.lib
+
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\Logger.h C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\include\Logger.h
-COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLevels.h C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\include\LogLevels.h</Command>
+COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLevel.h C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\include\LogLevel.h
+COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\TimeStamp.h C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\include\TimeStamp.h</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -151,13 +159,17 @@ COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLevels.h C:\ZData\Ca
     <PostBuildEvent>
       <Command>COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\Release\EzLog.dll C:\Libraries\EzLog\lib\EzLog.dll
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\Release\EzLog.lib C:\Libraries\EzLog\lib\EzLog.lib
+
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\Logger.h C:\Libraries\EzLog\include\Logger.h
-COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLevels.h C:\Libraries\EzLog\include\LogLevels.h
+COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLevel.h C:\Libraries\EzLog\include\LogLevel.h
+COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\TimeStamp.h C:\Libraries\EzLog\include\TimeStamp.h
 
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\Release\EzLog.dll C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\lib\EzLog.dll
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\Release\EzLog.lib C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\lib\EzLog.lib
+
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\Logger.h C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\include\Logger.h
-COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLevels.h C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\include\LogLevels.h</Command>
+COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLevel.h C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\include\LogLevel.h
+COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\TimeStamp.h C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\include\TimeStamp.h</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -180,22 +192,26 @@ COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLevels.h C:\ZData\Ca
     <PostBuildEvent>
       <Command>COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\Release\EzLog.dll C:\Libraries\EzLog\lib\EzLog.dll
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\Release\EzLog.lib C:\Libraries\EzLog\lib\EzLog.lib
+
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\Logger.h C:\Libraries\EzLog\include\Logger.h
-COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLevels.h C:\Libraries\EzLog\include\LogLevels.h
+COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLevel.h C:\Libraries\EzLog\include\LogLevel.h
+COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\TimeStamp.h C:\Libraries\EzLog\include\TimeStamp.h
 
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\Release\EzLog.dll C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\lib\EzLog.dll
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\Release\EzLog.lib C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\lib\EzLog.lib
+
 COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\Logger.h C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\include\Logger.h
-COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLevels.h C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\include\LogLevels.h</Command>
+COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\LogLevel.h C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\include\LogLevel.h
+COPY /Y C:\ZData\Carl\Dev\Repos\Github\EzLog\EzLog\EzLog\TimeStamp.h C:\ZData\Carl\Dev\Repos\OpenSource\EzLogLib\EzLogLib\include\TimeStamp.h</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Logger.cpp" />
-    <ClCompile Include="LogLevels.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h" />
-    <ClInclude Include="LogLevels.h" />
+    <ClInclude Include="LogLevel.h" />
+    <ClInclude Include="TimeStamp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

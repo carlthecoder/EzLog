@@ -16,34 +16,27 @@ You should have received a copy of the GNU Lesser General Public License
 along with EzLog. If not, see < https://www.gnu.org/licenses/lgpl-3.0.txt >
 */
 
-#include "LogLevels.h"
+#pragma once
+#ifndef EZLOG_LOGLEVEL_H
+#define EZLOG_LOGLEVEL_H
 
-std::string LogLevelToString(LogLevels level)
+#ifdef EZLOG_EXPORTS
+#define EZLOG_API __declspec(dllexport)
+#else
+#define EZLOG_API __declspec(dllimport)
+#endif
+
+#include <string>
+
+enum class LogLevel
 {
-	switch (level)
-	{
-		case LogLevels::Off:
-			return "Off";
+	Off,
+	Fatal,
+	Error,
+	Warn,
+	Info,
+	Debug,
+	Trace
+};
 
-		case LogLevels::Fatal:
-			return "Fatal";
-
-		case LogLevels::Error:
-			return "Error";
-
-		case LogLevels::Warn:
-			return "Warn";
-
-		case LogLevels::Info:
-			return "Info";
-
-		case LogLevels::Debug:
-			return "Debug";
-
-		case LogLevels::Trace:
-			return "Trace";
-
-		default:
-			return "Off";
-	}
-}
+#endif

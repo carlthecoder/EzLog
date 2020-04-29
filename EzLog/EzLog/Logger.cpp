@@ -21,129 +21,171 @@ along with EzLog. If not, see < https://www.gnu.org/licenses/lgpl-3.0.txt >
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include <cstdio>
+#include <sstream>
 
-using std::string;
 using std::ofstream;
+using std::stringstream;
 
-Logger::Logger(std::string fileName, std::string dirPath)
-	: Logger(LogLevels::Trace, true, fileName, dirPath)
-{}
-
-Logger::Logger(LogLevels level, bool logToOutput, string fileName, string dirPath)
-	:
-	logLevel(level),
-	logToOuput(logToOutput),
-	directory(dirPath)
+Logger::~Logger()
 {
-	std::filesystem::create_directory(directory);
-	filePath = directory + "\\" + CreateFileName(fileName);
-	
+	if (filePath)
+	{
+		delete[] filePath;
+		filePath = nullptr;
+	}
+
+	if (timeString)
+	{
+		delete[] timeString;
+		timeString = nullptr;
+	}
+}
+
+void Logger::Initialize(LogLevel level, bool consoleLogging, const char* fileName, const char* dirPath)
+{
+	logLevel = level;
+	this->consoleLogging = consoleLogging;
+	std::filesystem::create_directory(dirPath);
+
+	CreateFilePath(dirPath, fileName);
+
 	ofstream ofs(filePath);
-	ofs << "Log file created on " << GetTimeString() << std::endl;
+	ofs << "EzLog v1.0" << std::endl
+		<< "----------" << std::endl;
 	ofs.close();
 }
 
-void Logger::LogFatal(std::string fatal) const
-{
-	if (logLevel == LogLevels::Off || logLevel < LogLevels::Fatal)
-	{
-		return;
-	}
-	string logString = "|FATAL|\t" + GetTimeString() + " | " + fatal;
-	LogToFile(logString);
-}
-
-void Logger::LogError(std::string error) const
-{
-	if (logLevel == LogLevels::Off || logLevel < LogLevels::Error)
-	{
-		return;
-	}
-	string logString = "|ERROR|\t" + GetTimeString() + " | " + error;
-	LogToFile(logString);
-}
-
-void Logger::LogWarn(std::string warning) const
-{
-	if (logLevel == LogLevels::Off || logLevel < LogLevels::Warn)
-	{
-		return;
-	}
-	string logString = "|WARN|\t" + GetTimeString() + " | " + warning;
-	LogToFile(logString);
-}
-
-void Logger::LogInfo(std::string info) const
-{
-	if (logLevel == LogLevels::Off || logLevel < LogLevels::Info)
-	{
-		return;
-	}
-	string logString = "|INFO|\t" + GetTimeString() + " | " + info;
-	LogToFile(logString);
-}
-
-void Logger::LogDebug(std::string debugMessage) const
-{
-	if (logLevel == LogLevels::Off || logLevel < LogLevels::Debug)
-	{
-		return;
-	}
-	string logString = "|DEBUG|\t" + GetTimeString() + " | " + debugMessage;
-	LogToFile(logString);
-}
-
-void Logger::LogTrace(std::string traceMessage) const
-{
-	if (logLevel == LogLevels::Off || logLevel < LogLevels::Trace)
-	{
-		return;
-	}
-	string logString = "|TRACE|\t" + GetTimeString() + " | " + traceMessage;
-	LogToFile(logString);
-}
-
-void Logger::SetLogLevel(LogLevels level)
+void Logger::SetLogLevel(LogLevel level)
 {
 	logLevel = level;
 }
 
-void Logger::SetLogToOutput(bool allowed)
+void Logger::ToggleConsoleLogging(bool onOff)
 {
-	logToOuput = allowed;
+	consoleLogging = onOff;
 }
 
-void Logger::LogToFile(std::string& logString) const
+void Logger::LogFatal(const char* fatal) const
+{
+	if (logLevel == LogLevel::Off || logLevel < LogLevel::Fatal)
+	{
+		return;
+	}
+
+	//const char* logString = "|FATAL|\t" + GetTimeString() + " | " + fatal;
+	//LogToFile(logString);
+}
+
+void Logger::LogError(const char* error) const
+{
+	if (logLevel == LogLevel::Off || logLevel < LogLevel::Error)
+	{
+		return;
+	}
+
+	//string logString = "|ERROR|\t" + GetTimeString() + " | " + error;
+	//LogToFile(logString);
+}
+
+void Logger::LogWarn(const char* warning) const
+{
+	if (logLevel == LogLevel::Off || logLevel < LogLevel::Warn)
+	{
+		return;
+	}
+
+	//string logString = "|WARN|\t" + GetTimeString() + " | " + warning;
+	//LogToFile(logString);
+}
+
+void Logger::LogInfo(const char* info) const
+{
+	if (logLevel == LogLevel::Off || logLevel < LogLevel::Info)
+	{
+		return;
+	}
+
+	const char* infoString = "|INFO|\t";
+	stringstream ss;
+	ss << infoString << info;
+
+	auto output = ss.str().c_str();
+	LogToFile(output);
+	ss.clear();
+}
+
+void Logger::LogDebug(const char* debugMessage) const
+{
+	if (logLevel == LogLevel::Off || logLevel < LogLevel::Debug)
+	{
+		return;
+	}
+
+	//string logString = "|DEBUG|\t" + GetTimeString() + " | " + debugMessage;
+	//LogToFile(logString);
+}
+
+void Logger::LogTrace(const char* traceMessage) const
+{
+	if (logLevel == LogLevel::Off || logLevel < LogLevel::Trace)
+	{
+		return;
+	}
+
+	//string logString = "|TRACE|\t" + GetTimeString() + " | " + traceMessage;
+	//LogToFile(logString);
+}
+
+void Logger::LogToFile(const char* logString) const
 {
 	ofstream ofs(filePath, std::ios::app);
-	ofs << logString << std::endl;
+	ofs << logString << '\n';
 	ofs.close();
 
-	LogToOutput(logString);
-}
-
-void Logger::LogToOutput(std::string& logString) const
-{
-	if (logToOuput)
+	if (consoleLogging)
 	{
-		std::clog << logString << std::endl;
-	}	
+		LogToConsole(logString);
+	}
 }
 
-std::string Logger::CreateFileName(string fileName)
+void Logger::LogToConsole(const char* logString) const
 {
-	auto [year, month, day, hour, min, sec] = GetTimeStamp();
-
-	auto fileTime = year + month + day + "_" + hour + min + sec;
-
-	return fileName + " " + fileTime + ".log";
+	std::cout << logString << '\n';
 }
 
-std::string Logger::GetTimeString() const
-{
-	auto [year, month, day, hour, min, sec] = GetTimeStamp();
+//std::string Logger::CreateFileName(string fileName)
+//{
+//	auto [year, month, day, hour, min, sec] = GetTimeStamp();
+//
+//	auto fileTime = year + month + day + "_" + hour + min + sec;
+//
+//	return fileName + " " + fileTime + ".log";
+//}
 
-	return day + "/" + month + "/" + year + " " + hour + ":" + min + ":" + sec;
+void Logger::CreateFilePath(const char* dirPath, const char* fileName)
+{
+	auto size = strlen(dirPath) + strlen(fileName) + 2;
+	filePath = new char[size] {};
+
+	strcat(filePath, dirPath);
+	strcat(filePath, "\\");
+	strcat(filePath, fileName);
+}
+
+void Logger::CreateTimeString()
+{
+	auto ts = GetTimeStamp();
+
+	std::stringstream ss;
+	ss << ts.year << "_" << ts.month << "_" << ts.day
+		<< " " << ts.hour << "_" << ts.min;
+
+	auto time = ss.str().c_str();
+	delete[] timeString;
+	timeString = new char[strlen(time)] {};
+
+	strcpy(timeString, time);
 }
 
 TimeStamp Logger::GetTimeStamp() const
@@ -151,18 +193,14 @@ TimeStamp Logger::GetTimeStamp() const
 	auto now = time(0);
 	auto lt = localtime(&now);
 
-	string day = std::to_string(lt->tm_mday);
-	string month = std::to_string(lt->tm_mon);
-	string year = std::to_string(lt->tm_year % 100);
-	day = lt->tm_mday < 10 ? "0" + day : day;
-	month = lt->tm_mon < 10 ? "0" + month : month;
+	TimeStamp stamp;
 
-	string hour = std::to_string(lt->tm_hour);
-	string min = std::to_string(lt->tm_min);
-	string sec = std::to_string(lt->tm_sec);
-	hour = lt->tm_hour < 10 ? "0" + hour : hour;
-	min = lt->tm_min < 10 ? "0" + min : min;
-	sec = lt->tm_sec < 10 ? "0" + sec : sec;
+	stamp.day = lt->tm_mday;
+	stamp.month = lt->tm_mon;
+	stamp.year = lt->tm_year % 100;
+	stamp.hour = lt->tm_hour;
+	stamp.min = lt->tm_min;
+	stamp.sec = lt->tm_sec;
 
-	return std::make_tuple(year, month, day, hour, min, sec);
+	return stamp;
 }
