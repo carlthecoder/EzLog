@@ -29,8 +29,5 @@
     <ClInclude Include="LogLevels.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LogLib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
