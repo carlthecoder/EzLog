@@ -37,8 +37,7 @@ public:
 	Logger(const Logger&) = delete;
 	Logger& operator=(const Logger&) = delete;
 
-	void Initialize(LogLevel level = LogLevel::Trace, bool logToConsole = true, const char* fileName = "Output.log", const char* dirPath = "Log");
-
+	void Initialize(LogLevel level = LogLevel::Trace, bool logToConsole = true, const char* fileNameNoExtension = "Output", const char* dirPath = "Log");
 	void SetLogLevel(LogLevel level);
 	void ToggleConsoleLogging(bool allowed);
 
@@ -57,7 +56,8 @@ private:
 	LogLevel logLevel = LogLevel::Trace;
 
 	void CreateFilePath(const char* dirPath, const char* fileName);
-	void CreateTimeString();
+	void CreateTimeString(bool isFileStamp = false);
+	void ClearTimeString();
 	TimeStamp GetTimeStamp() const;
 	void FormatAndLog(const char* infolabel, const char* info);
 	void ClearOutputString();

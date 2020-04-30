@@ -35,26 +35,18 @@ Logger::~Logger()
 		filePath = nullptr;
 	}
 
-	if (timeString)
-	{
-		delete[] timeString;
-		timeString = nullptr;
-	}
+	ClearTimeString();
 
-	if (outputString)
-	{
-		delete[] outputString;
-		outputString = nullptr;
-	}
+	ClearOutputString();
 }
 
-void Logger::Initialize(LogLevel level, bool logToConsole, const char* fileName, const char* dirPath)
+void Logger::Initialize(LogLevel level, bool logToConsole, const char* fileNameNoExtension, const char* dirPath)
 {
 	logLevel = level;
 	this->consoleLogging = logToConsole;
 	std::filesystem::create_directory(dirPath);
 
-	CreateFilePath(dirPath, fileName);
+	CreateFilePath(dirPath, fileNameNoExtension);
 
 	ofstream ofs(filePath);
 	ofs << "EzLog v1.0" << std::endl
@@ -134,27 +126,45 @@ void Logger::LogTrace(const char* trace)
 
 void Logger::CreateFilePath(const char* dirPath, const char* fileName)
 {
-	auto size = strlen(dirPath) + strlen(fileName) + 2;
+	constexpr int extraChars = 3;	// for the slash, the underscore and the null termination
+	constexpr char extension[] = ".log";
+	CreateTimeString(true);
+	auto size = strlen(dirPath) + strlen(fileName) + strlen(timeString) + strlen(extension) + extraChars;
 	filePath = new char[size] {};
 
-	strcat(filePath, dirPath);
-	strcat(filePath, "\\");
-	strcat(filePath, fileName);
+	sprintf(filePath, "%s\\%s_%s%s", dirPath, fileName, timeString, extension);
+
+	////use sprintf instead of strcat
+	//strcat(filePath, dirPath);
+	//strcat(filePath, "\\");
+	//strcat(filePath, fileName);
 }
 
-void Logger::CreateTimeString()
+void Logger::CreateTimeString(bool isFileStamp)
 {
+	ClearTimeString();
+
 	auto ts = GetTimeStamp();
 
-	std::stringstream ss;
-	ss << ts.year << "_" << ts.month << "_" << ts.day
-		<< " " << ts.hour << "_" << ts.min;
+	if (isFileStamp)
+	{
+		timeString = new char[18];
+		sprintf(timeString, "%d-%d-%d_%d-%d-%d", ts.year, ts.month + 1, ts.day, ts.hour, ts.min, ts.sec);
+	}
+	else
+	{
+		timeString = new char[20];
+		sprintf(timeString, "|%d-%d-%d %d:%d:%d|", ts.day, ts.month + 1, ts.year, ts.hour, ts.min, ts.sec);
+	}
+}
 
-	auto time = ss.str().c_str();
-	delete[] timeString;
-	timeString = new char[strlen(time)] {};
-
-	strcpy(timeString, time);
+void Logger::ClearTimeString()
+{
+	if (timeString)
+	{
+		delete[] timeString;
+		timeString = nullptr;
+	}
 }
 
 TimeStamp Logger::GetTimeStamp() const
@@ -177,13 +187,11 @@ TimeStamp Logger::GetTimeStamp() const
 void Logger::FormatAndLog(const char* levelLabel, const char* output)
 {
 	ClearOutputString();
+	CreateTimeString();
+	constexpr int extraChars = 2;
 
-	auto len1 = strlen(levelLabel);
-	auto len2 = strlen(output);
-	outputString = new char[len1 + len2 + 1] {};
-
-	strcat(outputString, levelLabel);
-	strcat(outputString, output);
+	outputString = new char[strlen(levelLabel) + strlen(output) + strlen(timeString) + extraChars] {};
+	sprintf(outputString, "%s%s\t%s", levelLabel, timeString, output);
 
 	LogToFile(outputString);
 
