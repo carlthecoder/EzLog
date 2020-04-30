@@ -40,12 +40,18 @@ Logger::~Logger()
 		delete[] timeString;
 		timeString = nullptr;
 	}
+
+	if (outputString)
+	{
+		delete[] outputString;
+		outputString = nullptr;
+	}
 }
 
-void Logger::Initialize(LogLevel level, bool consoleLogging, const char* fileName, const char* dirPath)
+void Logger::Initialize(LogLevel level, bool logToConsole, const char* fileName, const char* dirPath)
 {
 	logLevel = level;
-	this->consoleLogging = consoleLogging;
+	this->consoleLogging = logToConsole;
 	std::filesystem::create_directory(dirPath);
 
 	CreateFilePath(dirPath, fileName);
@@ -66,102 +72,65 @@ void Logger::ToggleConsoleLogging(bool onOff)
 	consoleLogging = onOff;
 }
 
-void Logger::LogFatal(const char* fatal) const
+void Logger::LogFatal(const char* fatal)
 {
 	if (logLevel == LogLevel::Off || logLevel < LogLevel::Fatal)
 	{
 		return;
 	}
 
-	//const char* logString = "|FATAL|\t" + GetTimeString() + " | " + fatal;
-	//LogToFile(logString);
+	FormatAndLog("|FATAL|\t", fatal);
 }
 
-void Logger::LogError(const char* error) const
+void Logger::LogError(const char* error)
 {
 	if (logLevel == LogLevel::Off || logLevel < LogLevel::Error)
 	{
 		return;
 	}
 
-	//string logString = "|ERROR|\t" + GetTimeString() + " | " + error;
-	//LogToFile(logString);
+	FormatAndLog("|ERROR|\t", error);
 }
 
-void Logger::LogWarn(const char* warning) const
+void Logger::LogWarn(const char* warning)
 {
 	if (logLevel == LogLevel::Off || logLevel < LogLevel::Warn)
 	{
 		return;
 	}
 
-	//string logString = "|WARN|\t" + GetTimeString() + " | " + warning;
-	//LogToFile(logString);
+	FormatAndLog("|WARN|\t", warning);
 }
 
-void Logger::LogInfo(const char* info) const
+void Logger::LogInfo(const char* info)
 {
 	if (logLevel == LogLevel::Off || logLevel < LogLevel::Info)
 	{
 		return;
 	}
 
-	const char* infoString = "|INFO|\t";
-	stringstream ss;
-	ss << infoString << info;
-
-	auto output = ss.str().c_str();
-	LogToFile(output);
-	ss.clear();
+	FormatAndLog("|INFO|\t", info);
 }
 
-void Logger::LogDebug(const char* debugMessage) const
+void Logger::LogDebug(const char* debug)
 {
 	if (logLevel == LogLevel::Off || logLevel < LogLevel::Debug)
 	{
 		return;
 	}
 
-	//string logString = "|DEBUG|\t" + GetTimeString() + " | " + debugMessage;
-	//LogToFile(logString);
+	FormatAndLog("|DEBUG|\t", debug);
 }
 
-void Logger::LogTrace(const char* traceMessage) const
+void Logger::LogTrace(const char* trace)
 {
 	if (logLevel == LogLevel::Off || logLevel < LogLevel::Trace)
 	{
 		return;
 	}
 
-	//string logString = "|TRACE|\t" + GetTimeString() + " | " + traceMessage;
-	//LogToFile(logString);
+	FormatAndLog("|TRACE|\t", trace);
 }
-
-void Logger::LogToFile(const char* logString) const
-{
-	ofstream ofs(filePath, std::ios::app);
-	ofs << logString << '\n';
-	ofs.close();
-
-	if (consoleLogging)
-	{
-		LogToConsole(logString);
-	}
-}
-
-void Logger::LogToConsole(const char* logString) const
-{
-	std::cout << logString << '\n';
-}
-
-//std::string Logger::CreateFileName(string fileName)
-//{
-//	auto [year, month, day, hour, min, sec] = GetTimeStamp();
-//
-//	auto fileTime = year + month + day + "_" + hour + min + sec;
-//
-//	return fileName + " " + fileTime + ".log";
-//}
 
 void Logger::CreateFilePath(const char* dirPath, const char* fileName)
 {
@@ -203,4 +172,44 @@ TimeStamp Logger::GetTimeStamp() const
 	stamp.sec = lt->tm_sec;
 
 	return stamp;
+}
+
+void Logger::FormatAndLog(const char* levelLabel, const char* output)
+{
+	ClearOutputString();
+
+	auto len1 = strlen(levelLabel);
+	auto len2 = strlen(output);
+	outputString = new char[len1 + len2 + 1] {};
+
+	strcat(outputString, levelLabel);
+	strcat(outputString, output);
+
+	LogToFile(outputString);
+
+	if (consoleLogging)
+	{
+		LogToConsole(outputString);
+	}
+}
+
+void Logger::ClearOutputString()
+{
+	if (outputString)
+	{
+		delete[] outputString;
+		outputString = nullptr;
+	}
+}
+
+void Logger::LogToFile(const char* logString) const
+{
+	ofstream ofs(filePath, std::ios::app);
+	ofs << logString << '\n';
+	ofs.close();
+}
+
+void Logger::LogToConsole(const char* logString) const
+{
+	std::cout << logString << '\n';
 }

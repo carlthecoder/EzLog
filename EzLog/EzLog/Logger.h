@@ -37,30 +37,32 @@ public:
 	Logger(const Logger&) = delete;
 	Logger& operator=(const Logger&) = delete;
 
-	void Initialize(LogLevel level = LogLevel::Trace, bool consoleLogging = true, const char* fileName = "Output.log", const char* dirPath = "Log");
-	
+	void Initialize(LogLevel level = LogLevel::Trace, bool logToConsole = true, const char* fileName = "Output.log", const char* dirPath = "Log");
+
 	void SetLogLevel(LogLevel level);
 	void ToggleConsoleLogging(bool allowed);
 
-	void LogFatal(const char* fatal) const;
-	void LogError(const char* error) const;
-	void LogWarn(const char* warning) const;
-	void LogInfo(const char* info) const;
-	void LogDebug(const char* debugMessage) const;
-	void LogTrace(const char* traceMessage) const;	
+	void LogFatal(const char* fatal);
+	void LogError(const char* error);
+	void LogWarn(const char* warning);
+	void LogInfo(const char* info);
+	void LogDebug(const char* debugMessage);
+	void LogTrace(const char* traceMessage);
 
 private:
 	char* filePath = nullptr;
 	char* timeString = nullptr;
+	char* outputString = nullptr;
 	bool consoleLogging = true;
 	LogLevel logLevel = LogLevel::Trace;
-
-	void LogToFile(const char* logString) const;
-	void LogToConsole(const char* logString) const;
 
 	void CreateFilePath(const char* dirPath, const char* fileName);
 	void CreateTimeString();
 	TimeStamp GetTimeStamp() const;
+	void FormatAndLog(const char* infolabel, const char* info);
+	void ClearOutputString();
+	void LogToFile(const char* logString) const;
+	void LogToConsole(const char* logString) const;
 };
 
 #endif
