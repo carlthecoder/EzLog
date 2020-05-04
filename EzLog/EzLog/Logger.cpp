@@ -27,20 +27,7 @@ along with EzLog. If not, see < https://www.gnu.org/licenses/lgpl-3.0.txt >
 using std::ofstream;
 using std::stringstream;
 
-Logger::~Logger()
-{
-	if (filePath)
-	{
-		delete[] filePath;
-		filePath = nullptr;
-	}
-
-	ClearTimeString();
-
-	ClearOutputString();
-}
-
-void Logger::Initialize(LogLevel level, bool logToConsole, const char* fileNameNoExtension, const char* dirPath)
+Logger::Logger(LogLevel level, bool logToConsole, const char* fileNameNoExtension, const char* dirPath)
 {
 	logLevel = level;
 	this->consoleLogging = logToConsole;
@@ -52,6 +39,19 @@ void Logger::Initialize(LogLevel level, bool logToConsole, const char* fileNameN
 	ofs << "EzLog v1.0" << std::endl
 		<< "----------" << std::endl;
 	ofs.close();
+}
+
+Logger::~Logger()
+{
+	if (filePath)
+	{
+		delete[] filePath;
+		filePath = nullptr;
+	}
+
+	ClearTimeString();
+
+	ClearOutputString();
 }
 
 void Logger::SetLogLevel(LogLevel level)

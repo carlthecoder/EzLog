@@ -32,12 +32,11 @@ along with EzLog. If not, see < https://www.gnu.org/licenses/lgpl-3.0.txt >
 class EZLOG_API Logger
 {
 public:
-	Logger() = default;
+	Logger(LogLevel level = LogLevel::Trace, bool logToConsole = true, const char* fileNameNoExtension = "Output", const char* dirPath = "Log");
 	~Logger();
 	Logger(const Logger&) = delete;
 	Logger& operator=(const Logger&) = delete;
 
-	void Initialize(LogLevel level = LogLevel::Trace, bool logToConsole = true, const char* fileNameNoExtension = "Output", const char* dirPath = "Log");
 	void SetLogLevel(LogLevel level);
 	void ToggleConsoleLogging(bool allowed);
 
