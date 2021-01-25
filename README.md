@@ -1,7 +1,7 @@
 # EzLog
 
 This is the source code for EzLog,
-A small and simple, easy to use log library.
+A small and simple, easy to use log library for C++.
 
 Library Author: carlthecoder
 Language: C++
