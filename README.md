@@ -9,6 +9,6 @@ Software is licensed under the GNU Lesser General Public License, LGPL-3.0-or-la
 
 The library files can be found at:https://github.com/carlthecoder/EzLogLib
 
-Feel free to comment if you have any remarks, ideas or just like the library.
+Feel free to leave a comment.
 
 Happy Coding!
